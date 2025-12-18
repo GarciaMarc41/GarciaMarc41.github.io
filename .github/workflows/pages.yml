@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (gh-pages branch)
 on:
   push:
     branches:
@@ -16,10 +16,14 @@ jobs:
         with:
           lfs: true
 
-      - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v2
+      - name: Setup Node (for optional build)
+        uses: actions/setup-node@v4
         with:
-          path: '.'
+          node-version: '18'
 
-      - name: Deploy to Pages
-        uses: actions/deploy-pages@v1
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./
